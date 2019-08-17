@@ -1,7 +1,7 @@
-#下面是整理在docker部署odoo的过程和其中的坑
+# 下面是整理在docker部署odoo的过程和其中的坑
 ___
 
-##一、准备资料
+## 一、准备资料
 >* 1、 从**odoo**官方docker下载这三个文件：**Dockerfile**、**entrypoint.sh**、**odoo.conf**，参考链接如下
    https://github.com/odoo/docker/tree/master/12.0 
 >* 2、 下载要部署的**wkhtmltopfd**发行版deb包（包括SHA1SUMS码）（对应操作系统，我这里选用debain：stretch）
@@ -14,7 +14,7 @@ ___
    http://nightly.odoo.com/12.0/nightly/deb/  
 ---
 
-##二、准备环境
+## 二、准备环境
 >* 1、 **云服务器**或者**本地服务器** linux环境（本人环境是阿里云ubuntu16.04）
 >* 2、 已经安装**docker**（详情自行了解安装）
 >* 3、 安装好**docker**后先安装**postgresql**数据库,选择对应版本的数据库把镜像pull下来，然后启动一个容器：
@@ -24,7 +24,7 @@ ___
 ```
 > <提示：运行的容器镜像版本号必须与上面的的镜像版本号对应，如10.0对应10.0，否则会报错>
 ---
-##三、修改Dockerfile和odoo的配置文件
+## 三、修改Dockerfile和odoo的配置文件
 >* 1、在运行dockerfile时候，由于wkhtmltopdf和odoo12.0这两个包太大，经常断线造成下载失败
 故需要修改这两处的代码,改成复制当前目录下的deb包到容器的/var/local/目录下。（此目录可根据
 自己习惯选择，稍后会在容器里面安装这两个包)如下：
@@ -70,7 +70,7 @@ entrypoint.sh部分代码
 : ${PASSWORD:=${DB_ENV_POSTGRES_PASSWORD:=${POSTGRES_PASSWORD:='odoo'}}} #数据库用户密码
 ```
 ---
-##四、生成docker镜像文件(操作都在/var/local/目录下)
+## 四、生成docker镜像文件(操作都在/var/local/目录下)
 >* 1、使用Xshell来上传文件到服务器，在服务器安装lrzsz
 ```shell
 安装 lrzsz
@@ -109,7 +109,7 @@ odoo.conf
 然后静候。。。知道镜像安装成功（部分过程会安装一些odoo系统的依赖包和postgres客户端）
 ___
 
-#五、运行docker容器
+# 五、运行docker容器
 
 >* 1、运行一个odoo容器：
 **提示4：** 
@@ -126,7 +126,7 @@ IP映射 -p 8069:8069 主机端口：容器端口（p为小写）
 #docker run -p 8069:8069 --name odoo12 -v /var/odoo12/addons:/mnt/extra-addons --link db:db -t odoo12
 ```
 ---
-#六、进入容器安装wkhtmltox和odoo
+# 六、进入容器安装wkhtmltox和odoo
 
 >* 1、查看运行中的容器：**提示6：** COMMAND显示的是:bash，因为没有启动odoo服务，只是运行了debain
 ```shell
